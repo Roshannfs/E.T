@@ -1,2 +1,8 @@
 pip install opencv-python imutils
 python -m pip install scipy
+python -m venv myenv
+myenv\Scripts\activate
+pip install requests
+
+pip install --upgrade opencv-python
+pip install tensorflow
