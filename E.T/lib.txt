@@ -6,3 +6,5 @@ pip install requests
 
 pip install --upgrade opencv-python
 pip install tensorflow
+pip install tensorflow torch torchvision ultralytics
+pip install scikit-learn matplotlib pandas
