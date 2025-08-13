@@ -15,7 +15,7 @@ class BrakePadDefectDetector:
         self.dimension_issues = 0
         
         # Expected brake pad dimensions (adjust according to your specific brake pad)
-        self.expected_width_range = (182 ,123)1 # pixels
+        self.expected_width_range = (182 ,123) # pixels
         self.expected_height_range = (443 ,122)  # pixels
         
     def preprocess_image(self, frame):
