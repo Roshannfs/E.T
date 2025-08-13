@@ -6,7 +6,7 @@ import numpy as np
 def midpoint(x, y):
     return ((x[0] + y[0]) * 0.5, (x[1] + y[1]) * 0.5)
 
-KNOWN_WIDTH = 8.5  # Reference object width in cm
+KNOWN_WIDTH = 14 / 362 # Reference object width in cm
 cam = cv2.VideoCapture(0)
 
 if not cam.isOpened():
@@ -14,6 +14,10 @@ if not cam.isOpened():
     exit()
 
 pixelsPerMetric = None
+
+def new_func(image, overlay, alpha):
+    blended = cv2.addWeighted(overlay, alpha, image, 1 - alpha, 0)
+    return blended
 
 while True:
     ret, frame = cam.read()
@@ -39,10 +43,13 @@ while True:
         
         # Shade the actual object shape (contour) with light transparent color
         cv2.fillPoly(overlay, [c], color=(0, 255, 0))  # Light green fill
+        # Draw points on the actual object shape edges
+        for point in c:
+            cv2.circle(overlay, tuple(point[0]), 4, (0, 0, 255), -1)  # Red points
         
         # Apply transparency (alpha blending)
-        alpha = 0.3  # Transparency level (0.0 = fully transparent, 1.0 = fully opaque)
-        image = cv2.addWeighted(overlay, alpha, image, 1 - alpha, 0)
+        alpha = 0.7  # Transparency level (0.0 = fully transparent, 1.0 = fully opaque)
+        image = new_func(image, overlay, alpha)
 
         box = cv2.minAreaRect(c)
         box_points = cv2.boxPoints(box)
@@ -62,10 +69,11 @@ while True:
         dB = np.linalg.norm([tlblX - trbrX, tlblY - trbrY])  # width in pixels
 
         if pixelsPerMetric is None:
-            pixelsPerMetric = dB / KNOWN_WIDTH
+            pixelsPerMetric = dB * KNOWN_WIDTH
+            pixelsPerMetrich = dA * KNOWN_WIDTH
 
-        width = dB / pixelsPerMetric
-        height = dA / pixelsPerMetric
+        width = pixelsPerMetric
+        height = pixelsPerMetrich
 
         # Draw measurement lines
         # Height line (vertical)
