@@ -51,7 +51,7 @@ cam = cv2.VideoCapture(0)
 
 # Set window to resizable and specify initial size
 cv2.namedWindow("Measurement", cv2.WINDOW_NORMAL)
-cv2.resizeWindow("Measurement", 1200, 800)  # Width, Height in pixels
+cv2.resizeWindow("Measurement", 800, 600)  # Width, Height in pixels
 
 if not cam.isOpened():
     print("Cannot open camera")
@@ -60,7 +60,7 @@ if not cam.isOpened():
 pixelsPerMetric = None
 
 # Load reference contour once outside the loop (optimization)
-reference_image_path = "B:/git/E.T/E.T/Removebackgroundproject.png"
+reference_image_path = "D:\git roshan\E.T\E.T\company_project\Removebackgroundproject.png"
 reference_box = add_reference_shape_from_image(reference_image_path)
 
 while True:
@@ -97,8 +97,8 @@ while True:
 
             ref_h, ref_w = ref_img.shape
             img_h, img_w = image.shape[:2]
-            scale_x = img_w / ref_w * 0.4  # display width
-            scale_y = img_h / ref_h * 0.9  # display height
+            scale_x = img_w / ref_w * 0.55  # display width
+            scale_y = img_h / ref_h * 0.9# display height
 
             # FIX: Proper contour reshaping and scaling
             reference_box_reshaped = reference_box.reshape(-1, 2).astype("float")
@@ -159,7 +159,7 @@ while True:
             # Determine dimension status based on containment
             if fits_inside:
                 dimension_status = "Correct Dimension"
-                status_color = (0, 255, 0)  # Green
+                status_color = (0, 128, 0)  # Green
                 
                 # Draw measurement lines only for correct dimensions
                 cv2.line(overlay, (int(tltrX), int(tltrY)), (int(blbrX), int(blbrY)), (255, 0, 0), 2)
@@ -174,7 +174,7 @@ while True:
                             cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
             else:
                 dimension_status = "Not Correct Dimension"
-                status_color = (0, 0, 255)  # Red
+                status_color = (139, 0, 0)  # Red
 
             # Show dimension status on image
             cv2.putText(overlay, dimension_status, (int(tl[0]), int(tl[1]) - 30),
@@ -201,7 +201,7 @@ while True:
         if ref_img is not None:
             ref_h, ref_w = ref_img.shape
             img_h, img_w = image.shape[:2]
-            scale_x = img_w / ref_w * 0.4
+            scale_x = img_w / ref_w * 0.55
             scale_y = img_h / ref_h * 0.9
 
             reference_box_reshaped = reference_box.reshape(-1, 2).astype("float")
